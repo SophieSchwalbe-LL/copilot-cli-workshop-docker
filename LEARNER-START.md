@@ -18,22 +18,8 @@ GitHub Copilot licence. Your trainer sends you the repository URL.
 
 ## Optional: run the workshop in Docker
 
-On macOS or Linux, you can run the same `start-copilot.ps1` script in a container instead of
-installing the workshop tools on your machine. From the repository root, build the image and start
-an interactive session:
-
-```bash
-docker build -t copilot-cli-workshop .
-docker run --rm -it \
-  -v "$PWD:/workspace" \
-  -v copilot-cli-state:/home/node/.copilot \
-  -v copilot-gh-state:/home/node/.config/gh \
-  copilot-cli-workshop
-```
-
-The repository mount keeps your changes on the host. The named volumes retain Copilot CLI and
-GitHub CLI sign-in data between containers. Complete Copilot sign-in with `/login` when prompted.
-To enable the GitHub Actions MCP tools for a session, add `-GitHubActions` after the image name.
+On macOS or Linux you can run the workshop in a container instead of installing the tools: see
+[docker/README.md](docker/README.md).
 
 ---
 

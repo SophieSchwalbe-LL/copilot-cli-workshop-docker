@@ -1,0 +1,52 @@
+# Everything runs in the same image (see Dockerfile): Copilot CLI, the Book App,
+# its tests and the book-catalog MCP server (started by Copilot over stdio).
+#
+# Run from the repository root with: docker compose -f docker/docker-compose.yml ...
+#   docker compose run --rm copilot          # Copilot CLI (MCP server runs inside this container)
+#   docker compose run --rm app              # Book App, e.g.: ... app python book_app.py list
+#   docker compose run --rm mcp              # self-test of the book-catalog MCP server
+#   docker compose run --rm tests            # pytest
+name: copilot-cli-workshop
+
+x-workshop: &workshop
+  build:
+    context: ..
+    dockerfile: docker/Dockerfile
+  image: copilot-cli-workshop
+  working_dir: /workspace/samples/book-app-project
+  environment:
+    PYTHONUTF8: "1"
+    GH_TOKEN: ${GH_TOKEN:-}
+    GITHUB_TOKEN: ${GITHUB_TOKEN:-}
+  volumes:
+    - ..:/workspace
+    - copilot-state:/home/node/.copilot
+    - gh-config:/home/node/.config/gh
+  stdin_open: true
+  tty: true
+
+services:
+  copilot:
+    <<: *workshop
+
+  app:
+    <<: *workshop
+    entrypoint: ["python"]
+    command: ["book_app.py", "list"]
+    profiles: ["tools"]
+
+  mcp:
+    <<: *workshop
+    entrypoint: ["python"]
+    command: ["mcp_server/book_catalog_server.py", "--check"]
+    profiles: ["tools"]
+
+  tests:
+    <<: *workshop
+    entrypoint: ["python", "-m", "pytest"]
+    command: ["-q"]
+    profiles: ["tools"]
+
+volumes:
+  copilot-state:
+  gh-config:

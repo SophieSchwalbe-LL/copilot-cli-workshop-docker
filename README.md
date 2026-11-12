@@ -28,6 +28,10 @@ discards uncommitted changes and runs the tests (replace the branch name):
 | `demo/csv-import-base` | Exercise E (optional, after the workshop): try the CSV import with Spec Kit or HVE Core yourself |
 | `solutions/*` | Sample solutions for exercises A–C (published after the workshop) |
 
+## Docker
+
+Run the workshop, the Book App, its tests and the MCP server in containers: see [docker/README.md](docker/README.md).
+
 ## What is in this repository
 
 | Path | Content |

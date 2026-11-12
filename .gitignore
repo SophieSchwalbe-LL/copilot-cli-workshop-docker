@@ -9,3 +9,4 @@ out/
 # HVE Core working artifacts stay out of product PRs (copy cleaned extracts to training-evidence/)
 .copilot-tracking/
 .github/copilot/settings.local.json
+.idea/
