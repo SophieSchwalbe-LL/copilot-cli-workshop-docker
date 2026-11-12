@@ -28,9 +28,11 @@ param(
 )
 $root = Resolve-Path (Join-Path $PSScriptRoot '..')
 $env:PYTHONUTF8 = '1'   # UTF-8 output from Python on Windows (the app prints a check mark)
-if (-not $Path) { $Path = Join-Path $root 'samples\book-app-project' }
+if (-not $Path) { $Path = Join-Path $root 'samples/book-app-project' }
 
-$activate = Join-Path $root '.venv\Scripts\Activate.ps1'
+$venv = if ($env:WORKSHOP_VENV) { $env:WORKSHOP_VENV } else { Join-Path $root '.venv' }
+$venvScripts = if ($IsWindows) { 'Scripts' } else { 'bin' }
+$activate = Join-Path (Join-Path $venv $venvScripts) 'Activate.ps1'
 if (Test-Path $activate) { . $activate }
 else { Write-Warning 'Workshop environment not found - run ./scripts/setup.ps1 first.' }
 
